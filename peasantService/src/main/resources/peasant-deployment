@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: peasant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: peasant
+  template:
+    metadata:
+      labels:
+        app: peasant
+    spec:
+      containers:
+        -
+          image: thisIsCamelCasingRule/peasantservice
+          name: peasant
+          imagePullPolicy: Never
+          ports:
+            -
+              containerPort: 8083
+              name: peasant
+          env:
+            - name: POSTGRES_ENDPOINT
+              value: "jdbc:postgresql://192.168.0.101:5432/"
+            - name: POSTGRES_PASSWORD
+              value: "123"
+            - name: POSTGRES_USERNAME
+              value: "postgres"
+            - name: PEASANT_URL
+              value: "http://peasant"
